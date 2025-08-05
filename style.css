@@ -1,0 +1,286 @@
+/* Reset mínimo */
+* { box-sizing: border-box; }
+html, body { height: 100%; margin: 0; }
+body {
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Helvetica Neue", Arial;
+  /* background: linear-gradient(160deg, #03013f, #010025); */
+  background-color: #0e192c;
+  color: #e8eaf0;
+  overflow-y: hidden;
+}
+
+
+/* Layout general: tablero + footer fijo */
+.app {
+  min-height: 100%;
+  display: grid;
+  grid-template-rows: 1fr auto;
+}
+
+/* --- Tablero centrado y cartas más grandes --- */
+.board {
+  display: grid;
+  gap: 18px;
+  padding: 24px 24px 120px;        /* margen inferior para no chocar con el footer */
+  margin-inline: auto;             /* centra el contenedor */
+  max-width: 1800px;               /* ancho cómodo en desktop */
+  justify-content: center;         /* centra el grid si sobra espacio */
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+}
+
+
+
+/* Carta: contenedor para efecto flip 3D */
+.card {
+  perspective: 1000px;
+  height: clamp(140px, 22vh, 220px);
+  background: transparent; /* ✅ Quita fondo blanco */
+  border: none;
+}
+
+.card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 18px;
+  transform-style: preserve-3d;
+  transition: transform 480ms cubic-bezier(.2,.8,.2,1);
+  /* Más contraste respecto al fondo */
+  /* background: linear-gradient(180deg, #d6224f, #9c60c7); */
+  background-color: #b254f3;
+  box-shadow: 0 10px 26px rgba(0,0,0,.40), inset 0 0 0 1px rgba(255,255,255,.10);
+  cursor: pointer;
+  border: 5px solid white;
+}
+
+/* Caras */
+.card-face {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  backface-visibility: hidden;
+  border-radius: 18px;
+  user-select: none;
+  color: #f3f6ff;
+}
+
+.card-face.front {
+  font-size: clamp(36px, 7vw, 64px);   /* letra más grande */
+  font-weight: 900;
+  letter-spacing: 2px;
+  text-shadow: 0 2px 6px rgba(0,0,0,.35);
+}
+
+.card-face.back {
+  transform: rotateY(180deg);
+  /* background: linear-gradient(180deg,  #f32155, #b254f3); */
+  background-color: #9861be;
+  font-size: clamp(20px, 4vw, 32px);
+  color: #d7e2ff;
+  padding: 12px;
+  text-align: center;
+}
+
+/* Estado volteado */
+.card.flipped .card-inner {
+  transform: rotateY(180deg);
+}
+
+/* --- Footer: contador centrado y grande; botones a la derecha --- */
+.footer {
+  position: sticky;
+  bottom: 0;
+  z-index: 10;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr; /* [spacer] [timer] [controls] */
+  align-items: center;
+  gap: 12px;
+  padding: 14px 18px;
+  /* background: rgba(8, 10, 15, 0.541); */
+  /* backdrop-filter: blur(6px); */
+  /* border-top: 1px solid rgba(255,255,255,0.08); */
+}
+
+.timer {
+  grid-column: 2;
+  justify-self: center;
+  font-variant-numeric: tabular-nums;
+  font-size: 15rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  display: flex;
+  align-items: baseline;
+}
+
+
+.time-part {
+  display: inline-block;
+  text-align: right;
+  min-width: 2.2ch; /* ✅ Fijar ancho estable para evitar “temblor” */
+}
+.time-part.ms {
+  min-width: 3.2ch; /* Milisegundos más ancho */
+}
+
+
+.sep { opacity: 0.8; margin: 0 4px; }
+
+/* Botones (se mantienen a la derecha) */
+.controls {
+  display: flex;
+  flex-direction: column;
+  justify-self: end;
+  padding-right: 4vh;
+  gap: 5px;
+}
+
+.btnn{
+  appearance: none;
+  border: 1px solid #ffffff65;
+  background: #232e4283;
+  color: #e8eaf0;
+  font-size: 1.2rem;
+  padding: 10px 15px;
+  border-radius: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.btn {
+  appearance: none;
+  border: 1px solid #1a223265;
+  background: #232e4283;
+  color: #e8eaf0;
+  font-size: 2rem;
+  padding: 5px 15px;
+  border-radius: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform .08s ease, background .2s ease, border-color .2s ease;
+}
+.btn:hover { background: #223149; border-color: rgba(255,255,255,0.25); }
+.btn:active { transform: translateY(1px); }
+
+/* Accesibilidad al enfocar */
+.card:focus-visible .card-inner,
+.btn:focus-visible {
+  outline: 2px solid #8fb0ff;
+  outline-offset: 2px;
+}
+
+.field-group label {
+  display: block;        
+  width: 100%;            
+  text-align: center;     
+  font-weight: 600;
+  font-size: 0.9rem;
+  margin-bottom: 6px;
+}
+
+
+
+
+.modal input[type="number"] {
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  font-size: 1rem;
+  text-align: center;
+  background: #2a3750;
+  color: #fff;
+  margin-bottom: 12px;
+}
+
+.modal label {
+  text-align: left;
+  font-size: 0.95rem;
+  margin-top: 10px;
+  margin-bottom: 4px;
+  display: block;
+}
+
+/* Modal Overlay */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.753);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+/* Modal Box */
+.modal {
+  background: #1e2a40;
+  padding: 30px 24px;
+  border-radius: 16px;
+  color: #fff;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+  width: 400px;
+  max-width: 80%;
+  text-align: center;
+}
+
+.modal h2 {
+  margin-top: 0;
+  margin-bottom: 16px;
+  font-size: 1.5rem;
+}
+
+.modal label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.modal input[type="number"] {
+  width: 100%;
+  padding: 5px;
+  border-radius: 10px;
+  border: none;
+  font-size: 1rem;
+  text-align: center;
+  background: #2a3750;
+  color: #fff;
+  margin-bottom: 20px;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+
+.modal-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.field-group {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.field-group label {
+  margin-bottom: 6px;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.field-group input {
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  font-size: 1rem;
+  text-align: center;
+  background: #2a3750;
+  color: #fff;
+}
+
+

@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>JUEGO LA</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app">
+
+    <!-- Modal para editar tiempo -->
+    <div class="modal-overlay" id="modalOverlay">
+      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <h2 id="modalTitle">Editar tiempo</h2>
+          <form id="timeForm">
+            <div class="modal-grid">
+              <div class="field-group">
+                <label for="minutesInput">Minutos</label>
+                <input type="number" id="minutesInput" name="minutesInput" min="0" max="60" required />
+              </div>
+
+              <div class="field-group">
+                <label for="secondsInput">Segundos</label>
+                <input type="number" id="secondsInput" name="secondsInput" min="0" max="59" required />
+              </div>
+
+              <div class="field-group">
+                <label for="msInput">Milisegundos</label>
+                <input type="number" id="msInput" name="msInput" min="0" max="999" required />
+              </div>
+            </div>
+
+            <div class="modal-buttons">
+              <button type="submit" class="btnn">Guardar</button>
+              <button type="button" class="btnn" id="cancelModalBtn">Cancelar</button>
+            </div>
+          </form>
+
+
+      </div>
+    </div>
+
+
+
+
+    <main id="board" class="board" aria-label="Tablero de letras"></main>
+
+    <footer class="footer">
+      <!-- Espaciador para centrar el contador con CSS Grid -->
+      <div class="spacer" aria-hidden="true"></div>
+
+      <div class="timer" aria-live="polite" aria-atomic="true">
+        <span class="time-part" id="min">03</span>
+        <span class="sep">:</span>
+        <span class="time-part" id="sec">00</span>
+        <span class="sep">:</span>
+        <span class="time-part ms" id="ms">000</span>
+      </div>
+
+      <div class="controls">
+        <button id="startBtn" class="btn" aria-label="Iniciar contador">⏵️</button>
+        <button id="pauseBtn" class="btn" aria-label="Pausar contador">⏸</button>
+        <button id="resetBtn" class="btn" aria-label="Reiniciar contador a 3 minutos">↻</button>
+        <button id="editTimeBtn" class="btn">⏱</button>
+      </div>
+    </footer>
+  </div>
+
+  <script src="script.js" defer></script>
+</body>
+</html>
