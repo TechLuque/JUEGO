@@ -283,4 +283,8 @@ body {
   color: #fff;
 }
 
+.timer.urgent {
+  color: #ff0000;
+  transition: color 10s ease;
+}
 

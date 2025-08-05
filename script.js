@@ -56,7 +56,10 @@ function createCard(letter) {
 })();
 
 // --- Contador de 3 minutos (mm:ss:ms) ---
-const DURATION_MS = 3 * 60 * 1000;
+// const DURATION_MS = 3 * 60 * 1000;
+// const DURATION_MS = 3 * 60 * 1000; // ❌ Ya no se necesita
+let durationMs = 0;  // ✅ Valor inicial hasta que el usuario lo configure
+
 
 const minEl = document.getElementById("min");
 const secEl = document.getElementById("sec");
@@ -66,7 +69,7 @@ const startBtn = document.getElementById("startBtn");
 const pauseBtn = document.getElementById("pauseBtn");
 const resetBtn = document.getElementById("resetBtn");
 
-let remaining = DURATION_MS;
+let remaining = durationMs;
 let running = false;
 let rafId = null;
 let lastTs = null;
@@ -80,7 +83,16 @@ function formatAndPaint(msLeft) {
   minEl.textContent = String(minutes).padStart(2, "0");
   secEl.textContent = String(seconds).padStart(2, "0");
   msEl.textContent  = String(millis).padStart(3, "0");
+
+  // Agrega o quita la clase "urgent"
+  const timerEl = document.querySelector(".timer");
+  if (clamped <= 10_000) {
+    timerEl.classList.add("urgent");
+  } else {
+    timerEl.classList.remove("urgent");
+  }
 }
+
 
 function tick(ts) {
   if (!running) return;
@@ -119,14 +131,15 @@ function pause() {
 
 function reset() {
   pause();
-  remaining = DURATION_MS;
+  remaining = durationMs; // ✅ Usa el tiempo personalizado
   formatAndPaint(remaining);
 
-  // ✅ Restaurar cartas volteadas
+  // Restaurar cartas volteadas
   document.querySelectorAll(".card.flipped").forEach(card => {
     card.classList.remove("flipped");
   });
 }
+
 
 
 startBtn.addEventListener("click", start);
@@ -169,6 +182,7 @@ timeForm.addEventListener("submit", (e) => {
 
   durationMs = (minutes * 60 * 1000) + (seconds * 1000) + ms;
   remaining = durationMs;
+
 
   formatAndPaint(remaining);
   modalOverlay.style.display = "none";
