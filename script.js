@@ -55,9 +55,8 @@ function createCard(letter) {
   board.appendChild(frag);
 })();
 
-// --- Contador de 3 minutos (mm:ss:ms) ---
-// const DURATION_MS = 3 * 60 * 1000;
-// const DURATION_MS = 3 * 60 * 1000; // ❌ Ya no se necesita
+
+
 let durationMs = 0;  // ✅ Valor inicial hasta que el usuario lo configure
 
 
