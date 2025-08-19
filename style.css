@@ -75,7 +75,7 @@ body {
 .card-face.back {
   transform: rotateY(180deg);
   /* background: linear-gradient(180deg,  #f32155, #b254f3); */
-  background-color: #9861be;
+  background-color: #c97285;
   font-size: clamp(20px, 4vw, 32px);
   color: #d7e2ff;
   padding: 12px;
